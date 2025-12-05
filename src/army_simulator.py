@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 
 
 # ============================================================================
-# WSPÓLNY INTERFEJS (Composite Pattern)
+# WSPOLNY INTERFEJS (Composite Pattern)
 # ============================================================================
 
 class MilitaryUnit(ABC):
@@ -34,11 +34,11 @@ class MilitaryUnit(ABC):
 
 
 # ============================================================================
-# LIŚCIE (pojedyncze jednostki)
+# LISCIE (pojedyncze jednostki)
 # ============================================================================
 
 class Warrior(MilitaryUnit):
-    """Bazowa klasa dla wszystkich pojedynczych wojowników."""
+    """Bazowa klasa dla wszystkich pojedynczych wojownikow."""
 
     def __init__(self, name: str, unit_type: str, strength: int, description: str):
         self.name = name
@@ -58,17 +58,17 @@ class Warrior(MilitaryUnit):
 
 
 class Orc(Warrior):
-    """Zwykły ork - mięso armatnie Mordoru"""
+    """Zwykly ork - mieso armatnie Mordoru"""
 
     def __init__(self, name: str):
-        super().__init__(name, "Orc", 5, "Plugawy sługa Ciemności")
+        super().__init__(name, "Orc", 5, "Plugawy sluga Ciemnosci")
 
 
 class UrukHai(Warrior):
     """Uruk-hai - elitarni wojownicy Sarumana"""
 
     def __init__(self, name: str):
-        super().__init__(name, "Uruk-hai", 12, "Doskonały wojownik stworzony przez Sarumana")
+        super().__init__(name, "Uruk-hai", 12, "Doskonaly wojownik stworzony przez Sarumana")
 
 
 class Troll(Warrior):
@@ -79,35 +79,35 @@ class Troll(Warrior):
 
 
 class Nazgul(Warrior):
-    """Nazgul - Upiory Pierścienia, terrorysta z nieba"""
+    """Nazgul - Upiory Pierscienia, terrorysta z nieba"""
 
     def __init__(self, name: str):
-        super().__init__(name, "Nazgul", 100, "Były król, teraz sługa Saurona")
+        super().__init__(name, "Nazgul", 100, "Byly krol, teraz sluga Saurona")
 
 
 class Elf(Warrior):
-    """Elf - zwinny łucznik, wieczny wróg orków"""
+    """Elf - zwinny lucznik, wieczny wrog orkow"""
 
     def __init__(self, name: str):
-        super().__init__(name, "Elf", 15, "Wieczny, mądry i śmiertelnie celny")
+        super().__init__(name, "Elf", 15, "Wieczny, madry i smiertelnie celny")
 
 
 class Human(Warrior):
-    """Człowiek - zwykły żołnierz Gondoru/Rohanu"""
+    """Czlowiek - zwykly zolnierz Gondoru/Rohanu"""
 
     def __init__(self, name: str):
-        super().__init__(name, "Human", 8, "Śmiertelnik broniący swojej ziemi")
+        super().__init__(name, "Human", 8, "Smiertelnik broniacy swojej ziemi")
 
 
 class Dwarf(Warrior):
-    """Krasnolud - niski ale wytrzymały"""
+    """Krasnolud - niski ale wytrzymaly"""
 
     def __init__(self, name: str):
-        super().__init__(name, "Dwarf", 14, "Twardy jak skała, z której się wywodzi")
+        super().__init__(name, "Dwarf", 14, "Twardy jak skala, z ktorej sie wywodzi")
 
 
 class Wizard(Warrior):
-    """Czarodziej - rzadki ale potężny"""
+    """Czarodziej - rzadki ale potezny"""
 
     def __init__(self, name: str):
         super().__init__(name, "Wizard", 150, "Maiar w ludzkiej postaci")
@@ -118,7 +118,7 @@ class Wizard(Warrior):
 # ============================================================================
 
 class UnitGroup(MilitaryUnit):
-    """Grupa jednostek wojskowych - bazowa klasa dla wszystkich kompozytów."""
+    """Grupa jednostek wojskowych - bazowa klasa dla wszystkich kompozytow."""
 
     def __init__(self, name: str, unit_type: str = "Grupa"):
         self.name = name
@@ -126,11 +126,11 @@ class UnitGroup(MilitaryUnit):
         self.children: List[MilitaryUnit] = []
 
     def add(self, unit: MilitaryUnit) -> None:
-        """Dodaje jednostkę do grupy."""
+        """Dodaje jednostke do grupy."""
         self.children.append(unit)
 
     def get_strength(self) -> int:
-        """Liczy siłę grupy - REKURENCYJNIE, bez zagnieżdżonych pętli!"""
+        """Liczy sile grupy - REKURENCYJNIE, bez zagniezdzonych petli!"""
         return sum(child.get_strength() for child in self.children)
 
     def count_units(self) -> int:
@@ -138,7 +138,7 @@ class UnitGroup(MilitaryUnit):
         return sum(child.count_units() for child in self.children)
 
     def show(self, indent: int = 0) -> str:
-        """Wyświetla strukturę grupy."""
+        """Wyswietla strukture grupy."""
         prefix = "  " * indent
         lines = [f"{prefix}[{self.unit_type}: {self.name}] (sila: {self.get_strength()}, jednostek: {self.count_units()})"]
         for child in self.children:
@@ -146,7 +146,7 @@ class UnitGroup(MilitaryUnit):
         return "\n".join(lines)
 
     def get_all_warriors(self) -> List[Warrior]:
-        """Zwraca listę wszystkich pojedynczych wojowników w grupie."""
+        """Zwraca liste wszystkich pojedynczych wojownikow w grupie."""
         warriors = []
         for child in self.children:
             if isinstance(child, Warrior):
@@ -157,32 +157,32 @@ class UnitGroup(MilitaryUnit):
 
 
 class Squad(UnitGroup):
-    """Oddział - najmniejsza grupa bojowa"""
+    """Oddzial - najmniejsza grupa bojowa"""
 
     def __init__(self, name: str):
         super().__init__(name, "Oddzial")
 
 
 class Legion(UnitGroup):
-    """Legion - duża formacja bojowa składająca się z oddziałów"""
+    """Legion - duza formacja bojowa skladajaca sie z oddzialow"""
 
     def __init__(self, name: str):
         super().__init__(name, "Legion")
 
 
 class Army(UnitGroup):
-    """Armia - cała potęga wojskowa"""
+    """Armia - cala potega wojskowa"""
 
     def __init__(self, name: str, faction: str):
         super().__init__(name, "Armia")
         self.faction = faction  # "Mordor", "Isengard", "Gondor", etc.
 
     def show(self, indent: int = 0) -> str:
-        """Wyświetla strukturę armii z dodatkowymi informacjami."""
+        """Wyswietla strukture armii z dodatkowymi informacjami."""
         prefix = "  " * indent
         lines = [f"{prefix}=== ARMIA: {self.name} ({self.faction}) ===",
-                 f"{prefix}Całkowita siła: {self.get_strength()}", f"{prefix}Liczba jednostek: {self.count_units()}",
-                 f"{prefix}Liczba oddziałów: {self._count_squads()}", f"{prefix}Liczba legionów: {len(self.children)}",
+                 f"{prefix}Calkowita sila: {self.get_strength()}", f"{prefix}Liczba jednostek: {self.count_units()}",
+                 f"{prefix}Liczba oddzialow: {self._count_squads()}", f"{prefix}Liczba legionow: {len(self.children)}",
                  f"{prefix}" + "-" * 40]
         # Dodajemy dzieci (legiony)
         for child in self.children:
@@ -191,7 +191,7 @@ class Army(UnitGroup):
         return "\n".join(lines)
 
     def _count_squads(self) -> int:
-        """Liczy oddziały w armii."""
+        """Liczy oddzialy w armii."""
         count = 0
         for legion in self.children:
             if isinstance(legion, Legion):
@@ -204,7 +204,7 @@ class Army(UnitGroup):
         return [w for w in warriors if w.unit_type == unit_type]
 
     def get_strongest_unit(self) -> Warrior:
-        """Znajduje najsilniejszą jednostkę - REKURENCYJNIE!"""
+        """Znajduje najsilniejsza jednostke - REKURENCYJNIE!"""
         warriors = self.get_all_warriors()
         if not warriors:
             return None
