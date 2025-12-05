@@ -8,13 +8,14 @@ Kazda operacja (sila, liczenie, wyswietlanie) wymaga tych samych petli!
 To nie jest Jedyny Prawdziwy Sposob... jest lepszy.
 """
 from typing import List, Dict
-
+from military_unit import MilitaryUnit
+from .unit_group import UnitGroup 
 
 # ============================================================================
 # POJEDYNCZE JEDNOSTKI (rozne typy wojownikow)
 # ============================================================================
 
-class Orc:
+class Orc(MilitaryUnit):
     """Zwykly ork - mieso armatnie Mordoru"""
     
     def __init__(self, name: str):
@@ -24,7 +25,7 @@ class Orc:
         self.description = "Plugawy sluga Ciemnosci"
 
 
-class UrukHai:
+class UrukHai(MilitaryUnit):
     """Uruk-hai - elitarni wojownicy Sarumana"""
     
     def __init__(self, name: str):
@@ -34,7 +35,7 @@ class UrukHai:
         self.description = "Doskonaly wojownik stworzony przez Sarumana"
 
 
-class Troll:
+class Troll(MilitaryUnit):
     """Troll jaskiniowy - powolny ale MOCNY"""
     
     def __init__(self, name: str):
@@ -44,7 +45,7 @@ class Troll:
         self.description = "Ogromna bestia, lepiej nie stawac na drodze"
 
 
-class Nazgul:
+class Nazgul(MilitaryUnit):
     """Nazgul - Upiory Pierscienia, terrorysta z nieba"""
     
     def __init__(self, name: str):
@@ -54,7 +55,7 @@ class Nazgul:
         self.description = "Byly krol, teraz sluga Saurona"
 
 
-class Elf:
+class Elf(MilitaryUnit):
     """Elf - zwinny lucznik, wieczny wrog orkow"""
     
     def __init__(self, name: str):
@@ -64,7 +65,7 @@ class Elf:
         self.description = "Wieczny, madry i smiertenie celny"
 
 
-class Human:
+class Human(MilitaryUnit):
     """Czlowiek - zwykly zolnierz Gondoru/Rohanu"""
     
     def __init__(self, name: str):
@@ -74,7 +75,7 @@ class Human:
         self.description = "Smiertelnik broniacy swojej ziemi"
 
 
-class Dwarf:
+class Dwarf(MilitaryUnit):
     """Krasnolud - niski ale wytrzymaly"""
     
     def __init__(self, name: str):
@@ -84,7 +85,7 @@ class Dwarf:
         self.description = "Twardy jak skala, z ktorej sie wywodzi"
 
 
-class Wizard:
+class Wizard(MilitaryUnit):
     """Czarodziej - rzadki ale potezny"""
     
     def __init__(self, name: str):
@@ -98,7 +99,7 @@ class Wizard:
 # STRUKTURY GRUPUJACE (tu zaczyna sie koszmar petli)
 # ============================================================================
 
-class Squad:
+class Squad(UnitGroup):
     """Oddzial - najmniejsza grupa bojowa"""
     
     def __init__(self, name: str):
@@ -129,7 +130,7 @@ class Squad:
         return "\n".join(lines)
 
 
-class Legion:
+class Legion(UnitGroup):
     """Legion - duza formacja bojowa skladajaca sie z oddzialow"""
     
     def __init__(self, name: str):
@@ -166,7 +167,7 @@ class Legion:
         return "\n".join(lines)
 
 
-class Army:
+class Army(UnitGroup):
     """Armia - cala potega wojskowa"""
     
     def __init__(self, name: str, faction: str):
