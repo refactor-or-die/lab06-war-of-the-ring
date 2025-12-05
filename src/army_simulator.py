@@ -13,8 +13,49 @@ from typing import List, Dict
 # ============================================================================
 # POJEDYNCZE JEDNOSTKI (rozne typy wojownikow)
 # ============================================================================
+from abc import ABC, abstractmethod
 
-class Orc:
+class MilitaryUnit(ABC):
+    @abstractmethod
+    def strength(self) -> int:
+        pass
+    
+    @abstractmethod
+    def count(self) -> int:
+        pass
+    
+    @abstractmethod
+    def show(self, indent: int = 0) -> str:
+        pass
+
+class Warrior(MilitaryUnit):
+    def strength(self) -> int:
+        return self._strength  # Zwraca swoją siłę
+    
+    def count(self) -> int:
+        return 1  # Jest jeden!
+    def show(self, indent: int = 0) -> str:
+        prefix = "  " * indent
+        return f"{prefix}- {self.name} ({self.unit_type}, sila: {self.strength()})"
+
+class UnitGroup(MilitaryUnit):
+    def __init__(self, name: str):
+        self.children: List[MilitaryUnit] = []
+    
+    def strength(self) -> int:
+        return sum(child.strength() for child in self.children)
+    
+    def count(self) -> int:
+        return sum(child.count() for child in self.children)
+    def show(self, indent: int = 0) -> str:
+        prefix = "  " * indent
+        lines = [f"{prefix}[{self.__class__.__name__}: {self.name}] (sila: {self.strength()}, jednostek: {self.count()})"]
+        for child in self.children:
+            lines.append(child.show(indent + 1))
+        return "\n".join(lines)
+
+
+class Orc(Warrior):
     """Zwykly ork - mieso armatnie Mordoru"""
     
     def __init__(self, name: str):
@@ -24,7 +65,7 @@ class Orc:
         self.description = "Plugawy sluga Ciemnosci"
 
 
-class UrukHai:
+class UrukHai(Warrior):
     """Uruk-hai - elitarni wojownicy Sarumana"""
     
     def __init__(self, name: str):
@@ -34,7 +75,7 @@ class UrukHai:
         self.description = "Doskonaly wojownik stworzony przez Sarumana"
 
 
-class Troll:
+class Troll(Warrior):
     """Troll jaskiniowy - powolny ale MOCNY"""
     
     def __init__(self, name: str):
@@ -44,7 +85,7 @@ class Troll:
         self.description = "Ogromna bestia, lepiej nie stawac na drodze"
 
 
-class Nazgul:
+class Nazgul(Warrior):
     """Nazgul - Upiory Pierscienia, terrorysta z nieba"""
     
     def __init__(self, name: str):
@@ -54,7 +95,7 @@ class Nazgul:
         self.description = "Byly krol, teraz sluga Saurona"
 
 
-class Elf:
+class Elf(Warrior):
     """Elf - zwinny lucznik, wieczny wrog orkow"""
     
     def __init__(self, name: str):
@@ -64,7 +105,7 @@ class Elf:
         self.description = "Wieczny, madry i smiertenie celny"
 
 
-class Human:
+class Human(Warrior):
     """Czlowiek - zwykly zolnierz Gondoru/Rohanu"""
     
     def __init__(self, name: str):
@@ -74,7 +115,7 @@ class Human:
         self.description = "Smiertelnik broniacy swojej ziemi"
 
 
-class Dwarf:
+class Dwarf(Warrior):
     """Krasnolud - niski ale wytrzymaly"""
     
     def __init__(self, name: str):
@@ -84,7 +125,7 @@ class Dwarf:
         self.description = "Twardy jak skala, z ktorej sie wywodzi"
 
 
-class Wizard:
+class Wizard(Warrior):
     """Czarodziej - rzadki ale potezny"""
     
     def __init__(self, name: str):
@@ -98,7 +139,7 @@ class Wizard:
 # STRUKTURY GRUPUJACE (tu zaczyna sie koszmar petli)
 # ============================================================================
 
-class Squad:
+class Squad(UnitGroup):
     """Oddzial - najmniejsza grupa bojowa"""
     
     def __init__(self, name: str):
@@ -129,7 +170,7 @@ class Squad:
         return "\n".join(lines)
 
 
-class Legion:
+class Legion(UnitGroup):
     """Legion - duza formacja bojowa skladajaca sie z oddzialow"""
     
     def __init__(self, name: str):
@@ -166,7 +207,7 @@ class Legion:
         return "\n".join(lines)
 
 
-class Army:
+class Army(UnitGroup):
     """Armia - cala potega wojskowa"""
     
     def __init__(self, name: str, faction: str):
