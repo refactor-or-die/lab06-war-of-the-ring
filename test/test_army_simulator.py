@@ -6,7 +6,7 @@ Te testy sprawdzaja ZACHOWANIE, nie implementacje.
 Dzieki temu dzialaja zarowno z kodem "przed" (petle) jak i "po" (Composite).
 """
 import pytest
-from army_simulator import (
+from src.army_simulator import (
     Orc, UrukHai, Troll, Nazgul, Elf, Human, Dwarf, Wizard,
     Squad, Legion, Army,
     create_mordor_army, create_gondor_army, compare_forces, merge_armies
